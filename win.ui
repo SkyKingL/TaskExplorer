@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>238</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>103</x>
+     <y>30</y>
+     <width>575</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>管理器将根据你所键入的名称，为你打开相应的程序、文件夹、文档或 Internet 资源</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="run">
+   <property name="geometry">
+    <rect>
+     <x>467</x>
+     <y>141</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>运行</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="lookup">
+   <property name="geometry">
+    <rect>
+     <x>583</x>
+     <y>141</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>浏览</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="enter">
+   <property name="geometry">
+    <rect>
+     <x>133</x>
+     <y>100</y>
+     <width>541</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>102</y>
+     <width>72</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>打开于：</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
