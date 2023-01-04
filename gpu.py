@@ -17,7 +17,6 @@ class gpu:
             }
         )
         gpu_name = str(pynvml.nvmlDeviceGetName(handle))
-        gpu_power_state = pynvml.nvmlDeviceGetPowerState(handle)
         gpu_util_rate = pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
         gpu_memory_rate = pynvml.nvmlDeviceGetUtilizationRates(handle).memory
         # print(f"第 %d 张卡：{gpu_index}" )

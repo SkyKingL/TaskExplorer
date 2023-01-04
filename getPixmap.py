@@ -12,10 +12,10 @@ import win32gui
 #   large: return large or small icon handles
 # return: PyQt5.QtGui.QPixmap
 def getPixmap(pid: int, large=False) -> QPixmap:
-    exe = psutil.Process(pid).cmdline()[0]
-    # 使用 win32gui 从进程对应的 exe 文件提取图标
-    # large 为大图标句柄列表，small 为小图标句柄列表
     try:
+        exe = psutil.Process(pid).cmdline()[0]
+        # 使用 win32gui 从进程对应的 exe 文件提取图标
+        # large 为大图标句柄列表，small 为小图标句柄列表
         piconLarge, piconSmall = win32gui.ExtractIconEx(exe, 0)
     except:
         return QPixmap("mr.png")
@@ -25,41 +25,26 @@ def getPixmap(pid: int, large=False) -> QPixmap:
         if len(piconLarge) == 0:
             return QPixmap("icon.png")
 
+        # 释放小图标句柄，避免长时间内未释放的图标句柄过多
         for s in piconSmall:
             win32gui.DestroyIcon(s)
-        return QtWin.fromHICON(piconLarge[0])
+        # 获得大图标的QPixmap
+        pixmap = QtWin.fromHICON(piconLarge[0])
+
+        # 释放大图标句柄，避免长时间内未释放的图标句柄过多
+        for l in piconLarge:
+            win32gui.DestroyIcon(l)
+        return pixmap
         
     if len(piconSmall) == 0:
         return QPixmap("mr.png")
 
+    # 释放大图标句柄
     for l in piconLarge:
         win32gui.DestroyIcon(l)
-    return QtWin.fromHICON(piconSmall[0])
-
-if __name__ == "__main__":
-    from PyQt5.QtWidgets import QApplication, QLabel
-    import sys, time, pywintypes
-
-    app = QApplication(sys.argv)
-    printErr = lambda e, p: print (e, psutil.Process(p).name())
-
-    for pid in psutil.pids():
-        try:
-            pixmap = getPixmap(pid)
-            label = QLabel(None)
-            label.setPixmap(pixmap)
-            label.resize(960, 720)
-        # except (psutil.NoSuchProcess, psutil.AccessDenied, 
-        #         psutil.ZombieProcess, IndexError, pywintypes.error) as e:
-        #     printErr(e, pid)
-
-        except psutil.NoSuchProcess as e:
-            printErr("NoSuchProcess", pid)
-        except psutil.AccessDenied as e:
-            printErr("AccessDenied", pid)
-        except psutil.ZombieProcess as e:
-            printErr("ZombieProcess", pid) 
-        except IndexError as e:
-            printErr("IndexError", pid)
-        except pywintypes.error as e:
-            printErr(e, pid)
+    # 获得小图标的QPixmap
+    pixmap = QtWin.fromHICON(piconSmall[0])
+    # 释放小图标句柄
+    for s in piconSmall:
+        win32gui.DestroyIcon(s)
+    return pixmap

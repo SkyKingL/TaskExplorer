@@ -20,7 +20,7 @@ class Serve_Window(QWidget):
     def lookup(self):
         filePath, _ = QFileDialog.getOpenFileName(
             self,  # 父窗口对象
-            "选择你要上传的图片",  # 标题
+            "选择你要运行的文件",  # 标题
             r"data",  # 起始目录
             "(*.*)"  # 选择类型过滤项，过滤内容在括号中 #*.*所有文件
         )

@@ -1,11 +1,9 @@
 import os
-import sys
 import win32api
-# from PySide2.QtWidgets import *
 from PyQt5.QtWidgets import *
 from win_ui import Ui_Form
 from common import Va
-# 进程管理
+# 进程管理——切换进程
 class Change_Win(QWidget):
     def __init__(self):
         # 基本初始化
@@ -22,7 +20,7 @@ class Change_Win(QWidget):
     def lookup(self):
         filePath, _ = QFileDialog.getOpenFileName(
             self,  # 父窗口对象
-            "选择你要上传的图片",  # 标题
+            "选择你要运行的文件",  # 标题
             r"data",  # 起始目录
             "(*.*)"  # 选择类型过滤项，过滤内容在括号中 #*.*所有文件
         )

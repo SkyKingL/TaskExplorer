@@ -3,18 +3,13 @@ from common import *
 from TE_ui import Ui_MainWindow
 from Menu import View, File
 
-# from PySide2.QtGui import Qt
-# from PySide2 import QtCore
-# from PySide2.QtWidgets import *
-from PyQt5.QtCore import QThread, pyqtSignal, QObject
+from PyQt5.QtCore import QThread
 from Refresh_user import UserThread
 from Refresh_Process import ProcessThread
 from RunTaskWin import Serve_Window
 from ChangePid import Change_Win
 from getPixmap import getPixmap
 from gpu import gpu
-
-# from PySide2.QtGui import QIcon, QPixmap
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QBrush
@@ -121,7 +116,6 @@ class MainWindow(QMainWindow):
 
     # 运行新任务的交互窗口
     def serve_win(self):
-        # self.form2 = QtWidgets.QWidget()
         self.form2 = Serve_Window()
         self.form2.show()
 
@@ -155,7 +149,7 @@ class MainWindow(QMainWindow):
         Va.speed = 0.5
 
     def openurl(self):
-        webbrowser.open("https://github.com/")
+        webbrowser.open("https://github.com/SkyKingL/TaskExplorer")
 
     # 关机——设置弹窗
     def guanji(self):
@@ -175,7 +169,7 @@ class MainWindow(QMainWindow):
             print('取消')
 
 
-    # 关机——设置弹窗
+    # 注销——设置弹窗
     def zhuxiao(self):
         msgBox = QMessageBox()
         msgBox.setWindowTitle("注销")
@@ -187,11 +181,12 @@ class MainWindow(QMainWindow):
             # Save was clicked
             print('确定')
             # 立即注销
-            # os.system('shutdown /l /t 0')
+            os.system('shutdown /l /t 0')
         else:
             # cancel was clicked
             print('取消')
 
+    # 在def __init__(self)中调用
     def refresh_process(self):
         # 创建线程
         self.backend_1 = ProcessThread()
@@ -231,7 +226,7 @@ class MainWindow(QMainWindow):
         for i in range(6):
 
             data = QTableWidgetItem(msg[i]) if i != 0 else \
-                   QTableWidgetItem(QIcon(getPixmap(int(msg[1]), large=False)), msg[i])
+                   QTableWidgetItem(QIcon(getPixmap(int(msg[1]), large=False)), msg[0])
             
             processpage.setItem(j, i, data)
             # data.setTextColor("green")  # 设置单元格文本颜色
@@ -239,13 +234,12 @@ class MainWindow(QMainWindow):
             data.setTextAlignment(QtCore.Qt.AlignCenter)  # 设置单元格居中
             
         processpage.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)  # 设置表格所有列固定宽度
-
-
         processpage.resizeRowsToContents()  # 使行高跟随内容改变
         processpage.verticalHeader().setVisible(False)  # 隐藏垂直标题
         # processpage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 设置表格所有列按比例随窗口自动缩放
         self.cnt = self.cnt + 1
 
+    # 在def __init__(self)中调用
     def refresh_user(self):
         # 创建线程
         self.backend_2 = UserThread()
@@ -278,10 +272,14 @@ class MainWindow(QMainWindow):
         userpage.verticalHeader().setVisible(False)  # 隐藏垂直标题
         userpage.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)  # 设置表格所有列按比例随窗口自动缩放
 
-        if Va.speed != 0.5 or Va.lastspeed == 0:
+        if Va.speed != 0.5:
             Va.lastspeed = Va.speed # 记录上一次不是立即刷新的速度，同时保证已经刷新过
-        elif Va.speed == 0.5:
-            Va.lastspeed = 0 #如果是立即刷新对应的速度，这次刷新执行后就可以将速度调整回来
+        elif Va.speed == 0.5 and Va.speedflag ==0:
+            Va.speedflag = 1 #如果是立即刷新对应的速度，这次刷新执行后就可以将速度调整回来
+            return
+        elif Va.speed == 0.5 and Va.speedflag == 1:
+            Va.speed = Va.lastspeed
+            Va.speedflag = 0
 
         # 把“更新速度”标签也更新
         if Va.speed == 1:
