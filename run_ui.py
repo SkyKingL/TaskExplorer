@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle("王嘉豪阳康了吗")
+        self.setWindowTitle("My TaskExplorer")
         # 给需要使用的控件声明好所需函数
         # self.ui.[PushButton名称].clicked.connect([绑定的方法])
         # self.ui.[MenuButton名称].triggered.connect([绑定的方法])
